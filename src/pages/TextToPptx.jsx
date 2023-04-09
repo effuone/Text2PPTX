@@ -17,8 +17,8 @@ function TextToPPTX() {
     try {
       setLoading(true)
       const aiJsonResponse = await PPTXBuilder.getInformationFromOpenAI(topic)
-      const fixedJson = await PPTXBuilder.fixJson(aiJsonResponse)
-      let jsonData = jsonrepair(fixedJson)
+      // const fixedJson = await PPTXBuilder.fixJson(aiJsonResponse)
+      let jsonData = jsonrepair(aiJsonResponse)
       jsonData = JSON.parse(convertJSON(JSON.parse(jsonData)))
       const pptx = new pptxgen();
       for (const slideData of jsonData) {
@@ -35,8 +35,9 @@ function TextToPPTX() {
                             slide.addText(contentData.text, contentData.options);
                             break;
                         case 'image': 
-                            const imageTitle = await ImageSearchService.getGoogleTitle(slideData.title.text, slideData.subtitle.text)
-                            const imageUrl = await ImageSearchService.getImagesBySearchText(imageTitle)
+                            // const imageTitle = await ImageSearchService.getGoogleTitle(slideData.title.text, slideData.subtitle.text)
+                            // console.log()
+                            const imageUrl = await ImageSearchService.getImagesBySearchText(contentData.imageToSearch)
                             slide.addImage(
                                 {
                                     path: imageUrl,
