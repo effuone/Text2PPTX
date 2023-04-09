@@ -1,5 +1,7 @@
 import { Configuration, OpenAIApi } from "openai";
+// require('dotenv').config();
+
 const configuration = new Configuration({
-    apiKey: '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'
+    apiKey: process.env.REACT_APP_CHATAPI_KEY
   });
 export default new OpenAIApi(configuration);
