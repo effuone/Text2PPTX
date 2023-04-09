@@ -6,17 +6,33 @@ import pptxgen from "pptxgenjs";
 import OpenAIService from '../services/OpenAIService';
 import ImageSearchService from '../services/ImageSearchService';
 import convertJSON from '../utils/jsonConverter';
+import {Table} from 'react-bootstrap';
 function TextToPPTX() {
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false)
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
+  const [ready, setReady] = useState({
+    stage1: false,
+    stage2: false,
+    stage3: false,
+  });
+  const [isTableShown, setIsTableShown] = useState(false)
+
+  const handleReady = (stage) => {
+    setReady((prevState) => ({
+      ...prevState,
+      [stage]: !prevState[stage],
+    }));
+  };
 
   const createPresentation = async (topic) => {
     try {
       setLoading(true)
+      setIsTableShown(true)
       const aiJsonResponse = await PPTXBuilder.getInformationFromOpenAI(topic)
+      handleReady('stage1')
       // const fixedJson = await PPTXBuilder.fixJson(aiJsonResponse)
       let jsonData = jsonrepair(aiJsonResponse)
       jsonData = JSON.parse(convertJSON(JSON.parse(jsonData)))
@@ -50,12 +66,14 @@ function TextToPPTX() {
                             break;
                     }
                 } 
+                handleReady('stage2')
                 break;
             default: break;
         }
       }
       await pptx.writeFile(`${jsonData[0].title.text}.pptx`);
       setLoading(false);
+      handleReady('stage3')
     } catch (err) {
       console.error("Error occurred while creating presentation:", err);
     }
@@ -76,6 +94,50 @@ function TextToPPTX() {
         <Button className='mt-2' variant="primary" type="submit">
           {loading ? 'PPTX creation process...' : 'Convert to PPTX'}
         </Button>
+        {isTableShown ? <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Stage</th>
+                <th>Readiness</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>AI Content Generation Completed</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={ready.stage1}
+                    disabled
+                    onChange={() => handleReady('stage1')}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Photos Generated</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={ready.stage2}
+                    disabled
+                    onChange={() => handleReady('stage2')}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Presentation download</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={ready.stage3}
+                    disabled
+                    onChange={() => handleReady('stage3')}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </Table> : <></>}
+        
       </Form>
     </div>
   );
