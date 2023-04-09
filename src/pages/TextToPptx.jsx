@@ -8,13 +8,14 @@ import ImageSearchService from '../services/ImageSearchService';
 import convertJSON from '../utils/jsonConverter';
 function TextToPPTX() {
   const [inputText, setInputText] = useState('');
-
+  const [loading, setLoading] = useState(false)
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
 
   const createPresentation = async (topic) => {
     try {
+      setLoading(true)
       const aiJsonResponse = await PPTXBuilder.getInformationFromOpenAI(topic)
       const fixedJson = await PPTXBuilder.fixJson(aiJsonResponse)
       let jsonData = jsonrepair(fixedJson)
@@ -52,8 +53,8 @@ function TextToPPTX() {
             default: break;
         }
       }
-      await pptx.writeFile("presentation.pptx");
-      console.log("Presentation created successfully");
+      await pptx.writeFile(`${jsonData[0].title.text}.pptx`);
+      setLoading(false);
     } catch (err) {
       console.error("Error occurred while creating presentation:", err);
     }
@@ -68,10 +69,12 @@ function TextToPPTX() {
     <div className="d-flex align-items-center justify-content-center">
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formInputText">
-          <Form.Label>Введите ваш текст:</Form.Label>
+          <Form.Label>Enter your text:</Form.Label>
           <Form.Control as="textarea" rows={10} value={inputText} onChange={handleInputChange} />
         </Form.Group>
-        <Button className='mt-2' variant="primary" type="submit">Конвертировать в PPTX</Button>
+        <Button className='mt-2' variant="primary" type="submit">
+          {loading ? 'PPTX creation process...' : 'Convert to PPTX'}
+        </Button>
       </Form>
     </div>
   );
