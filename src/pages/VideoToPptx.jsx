@@ -94,7 +94,7 @@ const VideoToPptx = () => {
       }
       handleReady('stage1')
       try{
-        const transcribedText = await axios.post('http://localhost:8080/api/content/', postData)
+        const transcribedText = await axios.post('https://text2pptx.herokuapp.com/api/content/', postData)
         if(transcribedText){
             createPresentation({transcribedText});
         }
