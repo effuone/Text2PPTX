@@ -10,7 +10,7 @@ export default function convertJSON(inputJSON) {
           options: {
             x: 0.3,
             y: 0.3,
-            fontSize: 28,
+            fontSize: 26,
             color: "0078D7"
           }
         },
@@ -19,7 +19,7 @@ export default function convertJSON(inputJSON) {
           options: {
             x: 0.3,
             y: 0.8,
-            fontSize: 20,
+            fontSize: 18,
             color: "333333"
           }
         },
@@ -40,7 +40,7 @@ export default function convertJSON(inputJSON) {
           outputContent.options = {
             x: 0.3,
             y: 2.0,
-            fontSize: 18,
+            fontSize: 16,
             color: "333333"
           };
         } else if (inputContent.type === "image") {
