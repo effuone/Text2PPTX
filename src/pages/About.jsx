@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const About = () => {
     const navigate = useNavigate();
     const changePage = () => {
-        navigate('/categories')
+        navigate('/text-to-pptx')
     }
     return (
         <section className="p-5 p-lg-0 pt-5 text-center text-sm-start" style={{marginTop: '50px'}}>
