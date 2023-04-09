@@ -11,8 +11,8 @@ const About = () => {
         <div className="container">
             <div className="d-lg-flex align-items-center justify-content-between">
                 <div>
-                    <h1 className="text-dark">Создавайте впечатляющие<span className="text-primary">
-                        презентации в формате PPTX
+                    <h1 className="text-dark">Создавайте впечатляющие <span className="text-primary">
+                         презентации в формате PPTX
                     </span> всего за несколько минут благодаря нашей удобной системе конвертации текста, аудио и видео! </h1>
                     <p className="lead my-4 text-dark">
                     Наша система конвертации PPTX использует передовые технологии<span className="text-danger"> искусственного интеллекта</span> , чтобы обеспечить высокую точность и эффективность в конвертации <span className="text-danger">текста, аудио и видео в удобный формат pptx.</span> 
