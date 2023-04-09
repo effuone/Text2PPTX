@@ -1,9 +1,9 @@
 # nFactorial-AI-Cup-AppTrack
 
-## < Your Name >
+## Alibek Seitov
 
 
-## < Your App's Name >
+## Text2pptx
 
 
 ## Typeform to submit:
