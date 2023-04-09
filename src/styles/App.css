@@ -1,0 +1,38 @@
+h1, h2, h3, h4, p{
+    color: #3f4247;
+    font-family: 'Manrope', sans-serif;
+}
+header{
+    width: 100%;
+    height: 20vh;
+    display: flex;
+    justify-content: space-between;
+}
+.btn-main{
+    /* background: rgb(62,69,126);
+    background: linear-gradient(90deg, rgba(62,69,126,1) 0%, rgba(91,246,255,1) 39%, rgba(230,201,251,1) 65%, rgba(246,164,195,1) 100%); */
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 39%, rgba(0,212,255,1) 100%);
+}
+
+.page__wrapper {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.page{
+    padding: 20px;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.page__current{
+    border: 2px solid orange;
+    font-weight: bold;
+}
+App{
+    justify-content: center;
+}
