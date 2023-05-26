@@ -1,34 +1,35 @@
 import axios from 'axios';
-import OpenAIService from './OpenAIService';
-import { Configuration, OpenAIApi } from 'openai';
+
+function formatStringForPixabayQuery(inputString) {
+    var words = inputString.split(" ");
+    var formattedString = words.join("+");
+    return formattedString;
+}
 
 class ImageSearchService {
-    static async getImagesBySearchText(searchText){
-        const response = await axios.get(`https://api.pexels.com/v1/search?query=${searchText}&per_page=1`, {
+    static async getImagesBySearchTextFromPexels(searchText){
+        const response = await axios.get(`https://api.pexels.com/v1/search?query=${searchText}&per_page=1&size=medium`, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'X8hculvLjldV1taJeIgj5Bvu2DXH9kDlZ5X9Yowabl0uqDaLjsc4mbyE'
+                'User-Agent': 'PostmanRuntime/7.29.3',
+                'Authorization': process.env.REACT_APP_PEXELS_API_KEY
             }
         })
         return response.data.photos[0].src.original
     }
-    static async generateOpenAiImage(){
-        const response = await OpenAIService.createImage({
-            prompt: "a machine learning presentation cover image",
-            n: 1,
-            size: "1024x1024",
-          });
-          return response.data.data[0].url;
-    }
-    static async getGoogleTitle(title, subtitle){
-        const response = await OpenAIService.createCompletion({
-            model: 'text-davinci-003',
-            prompt: `I am creating pptx presentation about ${title}. What type of image should I google for slide about ${subtitle}. Write 2 words only.`,
-            temperature: 0.7,
-            max_tokens: 1025,
+    static async getImagesBySearchTextFromPixabay(searchText){
+        const apiKey = process.env.REACT_APP_PIXABAY_API_KEY
+        const response = await axios.get(`https://pixabay.com/api/?key=${apiKey}&q=${formatStringForPixabayQuery(searchText)}&image_type=photo`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'PostmanRuntime/7.29.3',
+            }
         })
-        return response.data.choices[0].text.trim()
+        const hits = response.data.hits
+        if(hits.length == 0){
+            return '' 
+        }
+        return hits[0].webformatURL
     }
 }
-
 export default ImageSearchService;

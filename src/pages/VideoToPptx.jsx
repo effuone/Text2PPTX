@@ -4,15 +4,14 @@ import PPTXBuilder from '../services/PPTXBuilder';
 import { jsonrepair } from 'jsonrepair';
 import pptxgen from "pptxgenjs";
 import axios from 'axios';
-import OpenAIService from '../services/OpenAIService';
 import ImageSearchService from '../services/ImageSearchService';
 import convertJSON from '../utils/jsonConverter';
 import {Table} from 'react-bootstrap';
 
-let summaryPrompt = `Summarize the main points and concepts from the one-hour video lesson transcript. 
-              Include key takeaways and important details that are essential for understanding the material. 
-              Use clear and concise language that is easy to understand, and format your summary in a way that is easy to follow and organized. 
-              Be sure to include relevant examples and explanations that support your points and help clarify the content for students.`
+// let summaryPrompt = `Summarize the main points and concepts from the one-hour video lesson transcript. 
+//               Include key takeaways and important details that are essential for understanding the material. 
+//               Use clear and concise language that is easy to understand, and format your summary in a way that is easy to follow and organized. 
+//               Be sure to include relevant examples and explanations that support your points and help clarify the content for students.`
 
 
 const VideoToPptx = () => {
@@ -127,6 +126,7 @@ const VideoToPptx = () => {
                 <tr>
                   <td>Extraction of text from video</td>
                   <td>
+                    
                     <input
                       type="checkbox"
                       checked={ready.stage1}

@@ -16,7 +16,7 @@ class PPTXBuilder {
     static async getInformationFromOpenAI(userInput){
         const response = await OpenAIService.createCompletion({
             model: 'text-davinci-003',
-            prompt: `Please generate a JSON structure representing a presentation on the topic of ${userInput}. Please include any relevant information or data that would be useful for the presentation. The JSON structure should include a collection of slides, with each slide containing a title, subtitle, and content. The content for each slide can be of different types, such as text or images. Create not more than 3 slides. Information should be too big. Please format the JSON structure in the following format: [
+            prompt: `Please generate a JSON structure representing a presentation on the topic of ${userInput}. Please include any relevant information or data that would be useful for the presentation. The JSON structure should include a collection of slides, with each slide containing a title, subtitle, and content. The content for each slide can be of different types, such as text or images. Create not more than 4 slides. Information should be too big. Image title names should be short and broad, so that they could be existing at Pixabay service (do not include names or unpopular terminology). Please format the JSON structure in the following format: [
                 {
                     "title": "Slide title",
                     "subtitle": "Slide subtitle",
@@ -27,30 +27,17 @@ class PPTXBuilder {
                         },
                         {
                           "type": "image",
-                          "imageToSearch": "Relevant image 1"
+                          "imageToSearch": "Image 1 title name to search in Pixabay"
                         },
                         {
                           "type": "image",
-                          "imageToSearch": "Relevant image 2"
+                          "imageToSearch": "Image 1 title name to search in Pixabay"
                         }
                     ]
                 }
-            ]`,
+            ]. Your response should contain only JSON structure without any "Sure, here it is..." or something like that in order to let me just copy paste  `,
             temperature: 0.7,
             max_tokens: 1025,
-        })
-        const jsonPattern = /(^[\s\S]*\{[\s\S]*\}$)/gm;
-
-        // Extract JSON data from response
-        const jsonData = response.data.choices[0].text.trim().match(jsonPattern)[0];
-        return jsonData.match(jsonPattern)[0]
-    }
-    static async fixJson(aiJsonResponse){
-        const response = await OpenAIService.createCompletion({
-            model: 'text-davinci-003',
-            prompt: `fix this json response "${aiJsonResponse}" so that it will be parsed properly. return ONLY json answer`,
-            temperature: 0.7,
-            max_tokens: 2025,
         })
         const jsonPattern = /(^[\s\S]*\{[\s\S]*\}$)/gm;
 
